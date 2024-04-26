@@ -12,9 +12,9 @@ public class NetprolabMember {
       //学生の総数
       members[i][0] = 120 + (random.nextInt(20) - 10);
       //女性の割合(%)
-      members[i][1] = i * random;
+      members[i][1] = i + 20;
       //岩井研の人数
-      members[i][2] = 10 + i * random;
+      members[i][2] = 10 + 6 * random.nextInt() - 3;
 
       // 男性数を求める
       int men = members[i][0] - (int) (members[i][0] * ((float) members[i][1] / 100));
