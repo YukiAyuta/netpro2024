@@ -7,16 +7,16 @@ public class XmasTree {
         for (int j = 0; j < N; j++) {
 
             for (int i = 0; i <= N - j; i++) {
-                System.out.print("`");
+                System.out.print("+");
             }
 
             for (int i = 0; i <= j * 2; i++) {
                 System.out.print("*");
             }
 
-            for (int i = 0; i <= N - j; i++) {
-                System.out.print("`");
-            }
+            // for (int i = 0; i <= N - j; i++) {
+            //     System.out.print("`");
+            // }
 
             System.out.print("\n");
         }
