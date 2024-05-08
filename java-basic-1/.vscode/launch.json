@@ -109,6 +109,17 @@
             "args": [
                 "4"
             ]
+        },
+        {
+            "type": "java",
+            "name": "XmasTree",
+            "request": "launch",
+            "mainClass": "XmasTree",
+            "projectName": "java-basic-2",
+            "args": [
+                "10",
+                "17"
+            ]
         }
     ]
 }
