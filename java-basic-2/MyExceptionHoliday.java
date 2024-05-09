@@ -2,15 +2,15 @@ import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.InputStreamReader;
 
-public class MayExceptionTest {
+public class MyExceptionHoliday {
 
 	public static void main(String[] args) {
 
-		MayExceptionTest myE=new MayExceptionTest();
+		MyExceptionHoliday myE=new MyExceptionHoliday();
 
 	}
 
-	MayExceptionTest(){
+	MyExceptionHoliday(){
 		BufferedReader reader = new BufferedReader(new InputStreamReader(System.in));
 		// BufferedReader というのは、データ読み込みのクラス(型)
 		// クラスの変数を作るには、new を使う。
