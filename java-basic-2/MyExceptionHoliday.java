@@ -6,17 +6,17 @@ public class MyExceptionHoliday {
 
 	public static void main(String[] args) {
 
-		MyExceptionHoliday myE=new MyExceptionHoliday();
+		MyExceptionHoliday myE = new MyExceptionHoliday();
 
 	}
 
-	MyExceptionHoliday(){
+	MyExceptionHoliday() {
 		BufferedReader reader = new BufferedReader(new InputStreamReader(System.in));
 		// BufferedReader というのは、データ読み込みのクラス(型)
 		// クラスの変数を作るには、new を使う。
 
 		// readLine() は、入出力エラーの可能性がある。エラー処理がないとコンパイルできない。
-		//  Java では、 try{ XXXXXXXX }  catch(エラーの型 変数) { XXXXXXXXXXXXXXXXXX} と書く
+		// Java では、 try{ XXXXXXXX } catch(エラーの型 変数) { XXXXXXXXXXXXXXXXXX} と書く
 		try {
 			System.out.println("何日ですか?");
 			String line = reader.readLine();
@@ -25,16 +25,18 @@ public class MyExceptionHoliday {
 
 			test(theday);
 
-		}
-		catch(IOException e) {
+		} catch (IOException e) {
 			System.out.println(e);
 		} catch (NoHolidayException e) {
 			e.printStackTrace();
 		}
 	}
 
-	void test(int theday) throws NoHolidayException{
-		if(theday==6){
+	void test(int theday) throws NoHolidayException {
+		if (theday == 1 || theday == 2 || theday == 6 || theday == 7 || theday == 8 || theday == 9 || theday == 10
+				|| theday == 13 || theday == 14 || theday == 15 || theday == 16 || theday == 17 || theday == 20
+				|| theday == 21 || theday == 22 || theday == 23 || theday == 24 || theday == 27 || theday == 28
+				|| theday == 29 || theday == 30 || theday == 31) {
 			throw new NoHolidayException();
 		}
 	}
