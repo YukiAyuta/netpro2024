@@ -1,3 +1,4 @@
+package src;
 class Kamoku {
 	String name;
 	int score;

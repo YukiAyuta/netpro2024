@@ -1,14 +1,17 @@
+package src;
+import java.util.ArrayList;
+
 public class HeikinCKadai {
 	public static void main(String[] args){
 
-// Kamokuクラスのインスタンスとして、
-// 同様に、math
 int h = 0;
 int sum = 0;
-int[] tensu = new int [tensu.length];
+int[] tensu = new int [100];
+ArrayList<Integer>highscire = new ArrayList<>();
 for(int i = 0; i <= 100; i ++){
-	tensu[i]=Math.floor(Math.random());
-	sum += tensu[h];
+	Kamoku math = new Kamoku(random.next(bound:101));
+	tensu[i] = math.getScore();
+	sum += tensu[i];
 }
 	Kamoku math = new Kamoku(70);
 

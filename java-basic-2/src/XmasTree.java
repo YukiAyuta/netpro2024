@@ -1,3 +1,4 @@
+package src;
 public class XmasTree {
     public static void main(String[] args) {
         // int X = Integer.parseInt(args[0]);

@@ -1,3 +1,4 @@
+package src;
 public class MyExceptionTest {
 
 	public static void main(String[] args) {
