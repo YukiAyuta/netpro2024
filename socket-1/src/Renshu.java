@@ -93,16 +93,17 @@ class Renshu {
     }
 
     boolean swapTwoArrays(int[] a, int[] b) {
-        int n = 0;
-        for (int i = 0; i > a.length; i++) {
-            n = a[i];
-            a[i] = b[i];
-            b[i] = n;
+        boolean ans = true;
+        if (a.length != b.length) {
+            ans = false;
+        } else {
+            int n = 0;
+            for (int i = 0; i < a.length; i++) {
+                n = a[i];
+                a[i] = b[i];
+                b[i] = n;
+            }
         }
-        if (a.length == b.length) {
-            return true;
-        } else if (a.length != b.length) {
-            return false;
-        }
+        return ans;
     }
 }
