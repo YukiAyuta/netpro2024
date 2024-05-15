@@ -7,17 +7,17 @@ import java.net.ServerSocket;
 import java.net.Socket;
 import java.util.Scanner;
 
-public class XmasServer {
+public class TanabataServer {
 
-    private static final int times = 2;
+    private static final int times = 3;
 
     private static String serverProcess(String content) {
         StringBuilder sb = new StringBuilder();
-        sb.append("🎁");
+        sb.append("☆ミ ");
         for (int i = 0; i < times; i++) {
             sb.append(content);
         }
-        sb.append("🎁");
+        sb.append("☆ミ");
         String result = sb.toString();
         return result;
     }
@@ -26,7 +26,7 @@ public class XmasServer {
         try {
             /* 通信の準備をする */
             Scanner scanner = new Scanner(System.in);
-            System.out.print("ポートを入力してください(5000など) → ");
+            System.out.print("ポートを入力してください(0707など) → ");
             int port = scanner.nextInt();
             scanner.close();
             System.out.println("localhostの" + port + "番ポートで待機します");
@@ -38,18 +38,18 @@ public class XmasServer {
 
             ObjectInputStream ois = new ObjectInputStream(socket.getInputStream());
 
-            XmasPresent present = (XmasPresent) ois.readObject();// Integerクラスでキャスト。
+            Tanzaku Tanzaku = (Tanzaku) ois.readObject();// Integerクラスでキャスト。
 
-            String msgPresent = present.getMessage();
-            System.out.println("メッセージは" + msgPresent);
-            String presentFromClient = present.getContent();
-            System.out.println("プレゼントの内容は" + presentFromClient);
+            String tanzakuJ = Tanzaku.getWishJ();
+            System.out.println("願い事（日本語）は" + tanzakuJ);
+            String tanzakuE = Tanzaku.getWishE();
+            System.out.println("願い事（英語）は" + tanzakuE);
 
             ObjectOutputStream oos = new ObjectOutputStream(socket.getOutputStream());
 
-            XmasPresent response = new XmasPresent();
-            response.setMessage("サーバーです。メリークリスマス！\n" + presentFromClient + "ありがとう。\nプレゼントのお返しは" + times + "倍" + "です");
-            response.setContent(serverProcess(presentFromClient));
+            Tanzaku response = new Tanzaku();
+            response.setWishJ("こんばんは、天の川（サーバー）です。\n願い事「" + tanzakuE + "」、承りました。\n念のため、流れ星さんにも願いを" + times + "回、唱えておきましょう。もちろん英語で。");
+            response.setWishE(serverProcess(tanzakuE));
 
             oos.writeObject(response);
             oos.flush();

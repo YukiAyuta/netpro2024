@@ -6,41 +6,41 @@ import java.net.BindException;
 import java.net.Socket; //ネットワーク関連のパッケージを利用する
 import java.util.Scanner;
 
-public class XmasTCPClient {
+public class TanabataClient {
 
     public static void main(String arg[]) {
         try {
             Scanner scanner = new Scanner(System.in);
-            System.out.print("ポートを入力してください(5000など) → ");
+            System.out.print("ポートを入力してください(0707など) → ");
             int port = scanner.nextInt();
             System.out.println("localhostの" + port + "番ポートに接続を要求します");
             Socket socket = new Socket("localhost", port);
             System.out.println("接続されました");
 
-            System.out.println("プレゼントを送ります");
+            System.out.println("短冊に願い事を書きましょう。");
             ObjectOutputStream oos = new ObjectOutputStream(socket.getOutputStream());
 
-            System.out.println("メッセージを入力してください(例:メリークリスマス) ↓");
-            String message = scanner.next();
-            System.out.println("プレゼントの内容を入力してください(例:お菓子) ↓");
-            String content = scanner.next();
+            System.out.println("願い事を入力してください(例:織姫と彦星が無事に会えますように。) ↓");
+            String wishJ = scanner.next();
+            System.out.println("すみません、やっぱり英語かローマ字で入力してください。空白なしでお願いします。(例:meetOrihimeAndHikoboshi) ↓");
+            String wishE = scanner.next();
             scanner.close();
 
-            XmasPresent present = new XmasPresent();
-            present.setMessage(message);
-            present.setContent(content);
+            Tanzaku Tanzaku = new Tanzaku();
+            Tanzaku.setWishJ(wishJ);
+            Tanzaku.setWishE(wishE);
 
-            oos.writeObject(present);
+            oos.writeObject(Tanzaku);
             oos.flush();
 
             ObjectInputStream ois = new ObjectInputStream(socket.getInputStream());
 
-            XmasPresent okaeshiPresent = (XmasPresent) ois.readObject();
+            Tanzaku okaeshiPresent = (Tanzaku) ois.readObject();
 
-            String replayMsg = okaeshiPresent.getMessage();
-            System.out.println("サーバからのメッセージは" + replayMsg);
-            String replayContent = okaeshiPresent.getContent();
-            System.out.println(replayContent + "をもらいました！");
+            String replayMsg = okaeshiPresent.getWishJ();
+            System.out.println("サーバからのメッセージは\n" + replayMsg);
+            String replayContent = okaeshiPresent.getWishE();
+            System.out.println(replayContent + "\nでは、願い事が無事に叶いますように。星に願いを☆");
 
             ois.close();
             oos.close();
