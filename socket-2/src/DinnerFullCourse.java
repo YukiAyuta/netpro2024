@@ -29,6 +29,7 @@ public class DinnerFullCourse {
 		public static void eatAll() {
 
 		String a = "";
+		
 		for (Dish element : list) {
 			a += element.getName() + "の値段は" + element.getValune() + "です。";
 		}

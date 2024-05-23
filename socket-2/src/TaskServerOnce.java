@@ -26,7 +26,7 @@ public class TaskServerOnce {
         try {
             /* 通信の準備をする */
             Scanner scanner = new Scanner(System.in);
-            System.out.print("ポートを入力してください(0707など) → ");
+            System.out.print("ポートを入力してください(1111など) → ");
             int port = scanner.nextInt();
             scanner.close();
             System.out.println("localhostの" + port + "番ポートで待機します");
@@ -41,15 +41,12 @@ public class TaskServerOnce {
             TaskObject to = (TaskObject) ois.readObject();// Integerクラスでキャスト。
 
             String num = to.getNumber();
-            System.out.println("願い事（日本語）は" + num);
-            // String tanzakuE = to.getWishE();
-            // System.out.println("願い事（英語）は" + tanzakuE);
+            System.out.println("" + num);
 
             ObjectOutputStream oos = new ObjectOutputStream(socket.getOutputStream());
 
             TaskObject response = new TaskObject();
-            response.setWishJ("こんばんは、天の川（サーバー）です。\n願い事「」、承りました。\n念のため、流れ星さんにも願いを回、唱えておきましょう。もちろん英語で。");
-            //response.setWishE(serverProcess(tanzakuE));
+            response.setWishJ(" ");
 
             oos.writeObject(response);
             oos.flush();

@@ -10,36 +10,35 @@ public class TaskClientOnce {
     public static void main(String arg[]) {
         try {
             Scanner scanner = new Scanner(System.in);
-            System.out.print("ポートを入力してください(0707など) → ");
+            System.out.print("ポートを入力してください(1111など) → ");
             int port = scanner.nextInt();
             System.out.println("localhostの" + port + "番ポートに接続を要求します");
             Socket socket = new Socket("localhost", port);
             System.out.println("接続されました");
 
-            System.out.println("短冊に願い事を書きましょう。");
+            System.out.println("");
             ObjectOutputStream oos = new ObjectOutputStream(socket.getOutputStream());
 
-            System.out.println("願い事を入力してください(例:織姫と彦星が無事に会えますように。) ↓");
+            System.out.println("");
             String wishJ = scanner.next();
-            System.out.println("すみません、やっぱり英語かローマ字で入力してください。空白なしでお願いします。(例:meetOrihimeAndHikoboshi) ↓");
+            System.out.println("");
             String wishE = scanner.next();
             scanner.close();
 
-            Tanzaku Tanzaku = new Tanzaku();
-            Tanzaku.setWishJ(wishJ);
-            Tanzaku.setWishE(wishE);
+            TaskObject TaskObject = new TaskObject();
+            TaskObject.PrimeChecker(num);
 
-            oos.writeObject(Tanzaku);
+            oos.writeObject(TaskObject);
             oos.flush();
 
             ObjectInputStream ois = new ObjectInputStream(socket.getInputStream());
 
-            Tanzaku okaeshiPresent = (Tanzaku) ois.readObject();
+            TaskObject okaeshiPresent = (TaskObject) ois.readObject();
 
             String replayMsg = okaeshiPresent.getWishJ();
             System.out.println("サーバからのメッセージは\n" + replayMsg);
             String replayContent = okaeshiPresent.getWishE();
-            System.out.println(replayContent + "\nでは、願い事が無事に叶いますように。星に願いを☆");
+            System.out.println(replayContent + "");
 
             ois.close();
             oos.close();
