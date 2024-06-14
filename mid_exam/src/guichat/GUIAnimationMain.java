@@ -140,7 +140,7 @@ public class GUIAnimationMain extends JPanel implements ActionListener {
 
         g2.setColor(Color.BLUE);
         g2.draw(ellipse);
-        g2.drawString(counter + "Step経過", 10, 10);
+        g2.drawString(counter + "Step経過！急いで！！！", 10, 10);
 
         for (int i = 0; i < myBallRims.length; i++) {
             myBallRims[i].draw(g2);
