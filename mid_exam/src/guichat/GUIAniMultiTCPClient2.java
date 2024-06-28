@@ -1,4 +1,4 @@
-package mid_exam.src.guichat;
+package guichat;
 
 //************以下、クライアントソフト。
 
@@ -42,7 +42,7 @@ class GUIAniMultiTCPClient2 {
 			try {
 
 				BufferedReader reader = // キーボードから接続するサーバ名を読み込む
-				new BufferedReader(new InputStreamReader(System.in));
+						new BufferedReader(new InputStreamReader(System.in));
 				System.out.println("input command:");
 				System.out.println("face,place,0,100,200");
 				System.out.println("face,color,1,yellow");
@@ -50,20 +50,19 @@ class GUIAniMultiTCPClient2 {
 				System.out.println(":");
 
 				String commandfromClient = reader.readLine();
-				if(commandfromClient.equals("end")||commandfromClient.equals("1")){
+				if (commandfromClient.equals("end") || commandfromClient.equals("1")) {
 					System.out.println("end");
 					System.exit(1);
 				}
 
 				doClientAccess(hostname, "commandfromClient");
 
-
 			} catch (IOException e) {
 				e.printStackTrace();
 			}
 			sleep5();
-		}//while
-	}//multi tcp client
+		} // while
+	}// multi tcp client
 
 	void sleep5() {
 		System.out.println("5s wait..");

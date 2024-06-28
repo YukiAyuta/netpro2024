@@ -1,4 +1,4 @@
-package mid_exam.src.guichat;
+package guichat;
 
 import java.awt.Color;
 import java.awt.Dimension;

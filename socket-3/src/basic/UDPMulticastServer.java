@@ -11,17 +11,15 @@ public class UDPMulticastServer {
 
         // 受け付けるデータバッファとUDPパケットを作成
         byte receiveBuffer[] = new byte[1024];
-        DatagramPacket receivePacket =
-                new DatagramPacket(receiveBuffer, receiveBuffer.length);
+        DatagramPacket receivePacket = new DatagramPacket(receiveBuffer, receiveBuffer.length);
 
         while (true) {
             // UDPパケットを受信
             receiveSocket.receive(receivePacket);
 
             // 受信したデータを標準出力へ出力
-            System.out.println
-                    (new String(receivePacket.getData(),
-                            0, receivePacket.getLength()));
+            System.out.println(new String(receivePacket.getData(),
+                    0, receivePacket.getLength()));
         }
     }
 }
