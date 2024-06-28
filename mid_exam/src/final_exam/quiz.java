@@ -40,7 +40,7 @@ public class quiz {
         return cor;
     }
 
-    public String geQuiz() {
+    public String getQuiz() {
         return q;
     }
 
