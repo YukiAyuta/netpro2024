@@ -1,103 +1,71 @@
 package final_exam;
 
-import java.awt.BorderLayout;
-import java.awt.event.ActionEvent;
-import java.awt.event.ActionListener;
 import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.InputStreamReader;
 import java.io.PrintWriter;
-import java.net.InetAddress;
-import java.net.InetSocketAddress;
+import java.net.ServerSocket;
 import java.net.Socket;
 
-import javax.swing.JButton;
-import javax.swing.JFrame;
-import javax.swing.JPanel;
-import javax.swing.JScrollPane;
-import javax.swing.JTextArea;
-import javax.swing.JTextField;
-
-public class quizServer extends JFrame implements ActionListener {
-    private static final String SERVER_HOSTNAME = "localhost";
-    private static final int SERVER_PORT = 5000;
-
-    private JTextArea chatArea;
-    private JTextField inputField;
-    private JButton sendButton;
-    private PrintWriter writer;
-    private BufferedReader reader;
+public class quizServer {
 
     public static void main(String[] args) {
-        new quizServer().setVisible(true);
+        new quizServer().startServer();
     }
 
-    public quizServer() {
-        setTitle("Chat Client");
-        setSize(400, 300);
-        setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-
-        chatArea = new JTextArea();
-        chatArea.setEditable(false);
-        JScrollPane chatScrollPane = new JScrollPane(chatArea);
-
-        inputField = new JTextField(25);
-        sendButton = new JButton("Send");
-        sendButton.addActionListener(this);
-
-        JPanel inputPanel = new JPanel();
-        inputPanel.add(inputField);
-        inputPanel.add(sendButton);
-
-        add(chatScrollPane, BorderLayout.CENTER);
-        add(inputPanel, BorderLayout.SOUTH);
-
-        connectToServer();
-    }
-
-    private void connectToServer() {
-        try {
-            InetSocketAddress socketAddress = new InetSocketAddress(SERVER_HOSTNAME, SERVER_PORT);
-            Socket socket = new Socket();
-            socket.connect(socketAddress, 10000);
-
-            InetAddress inadr;
-            if ((inadr = socket.getInetAddress()) != null) {
-                chatArea.append("Connected to " + inadr + "\n");
-            } else {
-                chatArea.append("Connection failed.\n");
-                return;
+    public void startServer() {
+        try (ServerSocket serverSocket = new ServerSocket(5000)) {
+            System.out.println("Server started. Waiting for connections...");
+            while (true) {
+                Socket clientSocket = serverSocket.accept();
+                System.out.println("Client connected: " + clientSocket.getInetAddress());
+                new ClientHandler(clientSocket).start();
             }
-
-            writer = new PrintWriter(socket.getOutputStream(), true);
-            reader = new BufferedReader(new InputStreamReader(socket.getInputStream()));
-
-            // Start a new thread to listen for messages from the server
-            new Thread(new ServerListener()).start();
         } catch (IOException e) {
-            chatArea.append("Error connecting to server: " + e.getMessage() + "\n");
+            e.printStackTrace();
         }
     }
 
-    @Override
-    public void actionPerformed(ActionEvent e) {
-        String message = inputField.getText();
-        if (message != null && !message.trim().isEmpty()) {
-            writer.println(message);
-            inputField.setText("");
-        }
-    }
+    private static class ClientHandler extends Thread {
+        private Socket clientSocket;
 
-    private class ServerListener implements Runnable {
-        @Override
+        public ClientHandler(Socket socket) {
+            this.clientSocket = socket;
+        }
+
         public void run() {
-            try {
-                String message;
-                while ((message = reader.readLine()) != null) {
-                    chatArea.append("Server: " + message + "\n");
+            try (
+                PrintWriter out = new PrintWriter(clientSocket.getOutputStream(), true);
+                BufferedReader in = new BufferedReader(new InputStreamReader(clientSocket.getInputStream()));
+            ) {
+                quiz.setQandCor();
+                if (quiz.getQuiz() == null) {
+                    out.println("No more questions available.");
+                    return;
+                }
+                out.println(quiz.getQuiz());
+                String response;
+                while ((response = in.readLine()) != null) {
+                    if (response.equalsIgnoreCase(quiz.getCor())) {
+                        out.println("Correct!");
+                        quiz.moveToNextQuiz();
+                        if (quiz.getQuiz() == null) {
+                            out.println("No more questions available.");
+                            break;
+                        }
+                        out.println(quiz.getQuiz());
+                    } else {
+                        out.println("Incorrect! Try again.");
+                    }
                 }
             } catch (IOException e) {
-                chatArea.append("Error reading from server: " + e.getMessage() + "\n");
+                e.printStackTrace();
+            } finally {
+                try {
+                    clientSocket.close();
+                } catch (IOException e) {
+                    e.printStackTrace();
+                }
             }
         }
     }
